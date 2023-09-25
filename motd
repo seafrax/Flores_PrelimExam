@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  vars_files:
+    - config.yaml
+  tasks:
+
+  - name: create user
+    user: 
+      name: "{{ username | default('micoflores') }}"
+
+      state: presemt

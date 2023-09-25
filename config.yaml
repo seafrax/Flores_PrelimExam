@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install pip3 and python
+    package:
+      name: 
+         - python3
+         - python3-pip
+
+      state: latest   
+ 
+  - name: set default pip3
+    command: "ln -sf /usr/bin/pip3 /usr/bin/pip"
+    when: ansible_distribution == "Ubuntu"
+
+  - name: set default pip3
+    command: "ln -sf /usr/bin/pip3 /usr/bin/pip"
+    when: ansible_distribution == "CentOs"
+
+  - name: set default python3
+    command: "ln -sf /usr/bin/python3 /usr/bin/python"
+    when: ansible_distribution == "Ubuntu"
+
+  - name: set default python3
+    command: "ln -sf /usr/bin/python /usr/bin/python3.10.12"
+    when: ansible_distribution == "CentOs"
+
+  - name: install java-openjdk
+    package:
+      name:  "{{ java_package }}"
+      state: latest   
+      
+
+ # - name: set motd
+ #   template:
+  #   src: motd.j2
+   #  dest: /etc/motd
+    #vars:
+     #motd_txt: "{{ motd_message | default('ansible manage node by flores') }}"
+
+
+  - name: Creating user
+    user:
+     name: "{{ username }}"
+     state: present
+    vars:
+     username: "{{ user_to_create  }}"
